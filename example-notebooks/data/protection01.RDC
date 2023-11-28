@@ -1,0 +1,28 @@
+file format : IDRISI Raster A.1
+file title  : Protection
+data type   : byte
+file type   : binary
+columns     : 512
+rows        : 512
+ref. system : spc83ma1
+ref. units  : m
+unit dist.  : 1.0000000
+min. X      : 242160.0000000
+max. X      : 257520.0000000
+min. Y      : 923060.0000000
+max. Y      : 938420.0000000
+pos'n error : unknown
+resolution  : 30
+min. value  : 0
+max. value  : 2
+display min : 0
+display max : 2
+value units : unspecified
+value error : unknown
+flag value  : 0
+flag def'n  : background
+legend cats : 2
+code      1 : Protected
+code      2 : Not Protected
+lineage     : This file was created by the OVERLAY module with the command line:
+lineage     : 3*C:\Users\rpontius\Gil\clark\advise\EmilyEvenden\GIS_p_landuse7\g260Protected01.rst*C:\Users\rpontius\Gil\clark\advise\EmilyEvenden\GIS_p_landuse7\mask01.rst*C:\Users\rpontius\Gil\clark\advise\EmilyEvenden\GIS_p_landuse7\protection01.rst

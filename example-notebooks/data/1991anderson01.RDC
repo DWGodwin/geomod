@@ -1,0 +1,33 @@
+file format : IDRISI Raster A.1
+file title  : 1991 Anderson Land Category
+data type   : byte
+file type   : binary
+columns     : 512
+rows        : 512
+ref. system : spc83ma1
+ref. units  : m
+unit dist.  : 1.0000000
+min. X      : 242160.0000000
+max. X      : 257520.0000000
+min. Y      : 923060.0000000
+max. Y      : 938420.0000000
+pos'n error : unknown
+resolution  : 30
+min. value  : 0
+max. value  : 7
+display min : 0
+display max : 7
+value units : categories
+value error : unknown
+flag value  : 0
+flag def'n  : background
+legend cats : 7
+code      1 : Built
+code      2 : Agriculture
+code      3 : Range
+code      4 : Forest
+code      5 : Water
+code      6 : Wetland
+code      7 : Barren
+lineage     : This file was created by the OVERLAY module with the command line:
+lineage     : 3*C:\Users\rpontius\Gil\clark\advise\EmilyEvenden\GIS_p_landuse7\anderson19use7_1991_01.rst*C:\Users\rpontius\Gil\clark\advise\EmilyEvenden\GIS_p_landuse7\mask01.rst*C:\Users\rpontius\Gil\clark\advise\EmilyEvenden\GIS_p_landuse7\1991anderson01.rst

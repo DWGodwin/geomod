@@ -1,0 +1,29 @@
+file format : IDRISI Raster A.1
+file title  : Towns
+data type   : byte
+file type   : binary
+columns     : 512
+rows        : 512
+ref. system : spc83ma1
+ref. units  : m
+unit dist.  : 1.0000000
+min. X      : 242160.0000000
+max. X      : 257520.0000000
+min. Y      : 923060.0000000
+max. Y      : 938420.0000000
+pos'n error : unknown
+resolution  : 30
+min. value  : 0
+max. value  : 3
+display min : 0
+display max : 3
+value units : unspecified
+value error : unknown
+flag value  : 0
+flag def'n  : background
+legend cats : 3
+code      1 : Topsfield
+code      2 : Hamilton
+code      3 : Wenham
+lineage     : This file was created by the WINDOW module with the command line:
+lineage     : C:\Users\rpontius\Gil\clark\advise\EmilyEvenden\GIS_p_landuse7\GIS_p_towns_02.rst*C:\Users\rpontius\Gil\clark\advise\EmilyEvenden\GIS_p_landuse7\win2towns02_1.rst*1*951*561*1462*1072*0

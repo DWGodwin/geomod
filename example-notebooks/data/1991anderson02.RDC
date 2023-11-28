@@ -1,0 +1,32 @@
+file format : IDRISI Raster A.1
+file title  : 1991 Built
+data type   : byte
+file type   : binary
+columns     : 512
+rows        : 512
+ref. system : spc83ma1
+ref. units  : m
+unit dist.  : 1.0000000
+min. X      : 242160.0000000
+max. X      : 257520.0000000
+min. Y      : 923060.0000000
+max. Y      : 938420.0000000
+pos'n error : unknown
+resolution  : 30
+min. value  : 0
+max. value  : 2
+display min : 0
+display max : 2
+value units : unspecified
+value error : unknown
+flag value  : 0
+flag def'n  : background
+legend cats : 2
+code      1 : Non-Built
+code      2 : Built
+lineage     : This file was created by the RECLASS module with the command line:
+lineage     : I*C:\Users\rpontius\Gil\clark\geog260\geog260_2020\geog260data2020\1991anderson01.rst*C:\Users\rpontius\Gil\clark\geog260\geog260_2020\geog260data2020\1991anderson02.rst*3*C:\Users\rpontius\Gil\clark\geog260\geog260_2020\geog260data2020\idrtemp.rcl*1
+lineage     : File C:\Users\rpontius\Gil\clark\geog260\geog260_2020\geog260data2020\idrtemp.rcl contains the following:
+lineage     : 1 2 8
+lineage     : 2 1 2
+lineage     : -9999
