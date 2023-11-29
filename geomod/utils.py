@@ -45,3 +45,12 @@ def CROSSTAB(land_cover_map, predicted_map, validation_map):
 
     compares the three maps for validation
     '''
+    
+def reclassify_landcover_map(land_cover_map, class_of_interest):
+    '''
+    gets a land cover map and class code of interest and reclassifies to 1 (non-class) and 2 (class)
+    '''
+    developed_map = (land_cover_map.where(land_cover_map==class_of_interest) / land_cover_map) * 2
+    non_developed_map = land_cover_map.where(land_cover_map!=class_of_interest) / land_cover_map
+    land_cover_map_reclass = developed_map.where(developed_map==2, non_developed_map)
+    return land_cover_map_reclass
