@@ -47,6 +47,16 @@ class Predictor:
         '''
         Take start year, starting binary classification map, suitability map, and decision rule, return predicted classification map
         THIS IS THE FUNCTION THAT SELECTS CELLS BASED ON SUITABILITY
+        
+        If constrain_to_neighborhoods is None, the method:
+        1. masks pixels which are already developed in the land cover map out of the suitability map
+        2. reclasses the suitability map so that [pixel quantity] number of pixels are reclassified as 2, the rest as 1.
+        3. combines the reclassed suitability map (which represents the change prediction) with the original land cover map.
+        
+        If constrain_to_neighborhoods is e.g. (3x3):
+        1. masks pixels which are already developed in the land cover map out the suitability map
+        2. masks non-border pixels out of the masked suitability map
+        3. finds the [pixel quantity] number of pixels of the border suitability map that are
         '''
 
     def validate(self): 
