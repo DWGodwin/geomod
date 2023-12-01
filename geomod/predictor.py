@@ -51,11 +51,13 @@ class Predictor:
         If constrain_to_neighborhoods is None, the method:
         1. masks pixels which are already developed in the land cover map out of the suitability map
         2. reclasses the suitability map so that [pixel quantity] number of pixels are reclassified as 2, the rest as 1.
+            a. This is done by calculating the threshold above which there are [pixel quantity] number of pixels
+            b. use numpy.quantile(array, 1-[pixel_quantity]/[size_of_array]) to get the threshold above which to select pixels
         3. combines the reclassed suitability map (which represents the change prediction) with the original land cover map.
         
         If constrain_to_neighborhoods is e.g. (3x3):
         1. masks pixels which are already developed in the land cover map out the suitability map
-        2. masks non-border pixels out of the masked suitability map
+        2. gets only edge pixels using utils.get_edges()
         3. finds the [pixel quantity] number of pixels of the border suitability map that are
         '''
 

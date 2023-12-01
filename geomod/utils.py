@@ -54,3 +54,29 @@ def reclassify_landcover_map(land_cover_map, class_of_interest):
     non_developed_map = land_cover_map.where(land_cover_map!=class_of_interest) / land_cover_map
     land_cover_map_reclass = developed_map.where(developed_map==2, non_developed_map)
     return land_cover_map_reclass
+
+def get_edges(binary_xarray, constrain_to_nieghborhood):
+
+    # m
+    
+    borders = xr.zeros_like(class_array, dtype=int)
+
+    # Get the size of the input array in both dimensions
+    x_size, y_size = class_array.sizes['x'], class_array.sizes['y']
+
+    # Iterate through each value
+    for i in range(x_size):
+        for j in range(y_size):
+            # Select those which are in class 1
+            if class_array.loc[i, j] == 1:
+                # Define the range for slicing, handling edge cases
+                i_min, i_max = max(i-1, 0), min(i+2, x_size)
+                j_min, j_max = max(j-1, 0), min(j+2, y_size)
+
+                # Get slice of all adjacent pixels
+                slice_adj = class_array.loc[i_min:i_max, j_min:j_max]
+
+                # Check if any belong to class 2
+                if np.any(slice_adj == 2):
+                    # Update borders array
+                    borders.loc[i, j] = 1
