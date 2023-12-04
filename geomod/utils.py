@@ -1,7 +1,7 @@
 # This script will contain utility functions needed for the functioning of the predictor script
 
-
-
+import xarray as xr
+import numpy as np
 
 def driver_map_to_suitability(categorized_driver_maps, land_cover_map):
     '''
@@ -31,13 +31,30 @@ def create_suitability_map_xarray(xarray_of__categorized_driver_and_landcover_ma
 
 
 
-def driver_map_classification(driver_maps):
+def driver_map_classification(driver_maps, reclass_maps):
     '''
     reclassifies continuous driver maps to categorical, leaves cateogorical maps as is
     NOTE: Not needed for main predictor, this will be part of the pre-predictor data preparation pipeline 
     Returns:
         categorized_driver_maps
     '''
+    reclassified_bands = []
+
+    # Step 2 & 3: Apply the reclassification rules for each band
+    for band, reclass_map in reclass_maps.items():
+        reclass_band = driver_maps.sel(band=band)
+        reclassified_band = reclass_band.copy()
+
+        for old_values, new_value in reclass_map.items():
+            reclassified_band = xr.where(reclassified_band.isin(old_values), new_value, reclassified_band)
+
+        reclassified_bands.append(reclassified_band)
+
+    # Combine reclassified bands into a single dataset
+    reclassified_driver_maps = xr.concat(reclassified_bands, dim='band')
+
+    return reclassified_driver_maps
+            
 
 def CROSSTAB(land_cover_map, predicted_map, validation_map):
     '''
@@ -48,11 +65,10 @@ def CROSSTAB(land_cover_map, predicted_map, validation_map):
     
 def reclassify_landcover_map(land_cover_map, class_of_interest):
     '''
-    gets a land cover map and class code of interest and reclassifies to 1 (non-class) and 2 (class)
+    gets a land cover map and class code of interest and reclassifies to 0 (non-class) and 1 (class)
     '''
-    developed_map = (land_cover_map.where(land_cover_map==class_of_interest) / land_cover_map) * 2
-    non_developed_map = land_cover_map.where(land_cover_map!=class_of_interest) / land_cover_map
-    land_cover_map_reclass = developed_map.where(developed_map==2, non_developed_map)
+    land_cover_map_reclass = xr.where(land_cover_map==class_of_interest, 1, 0)
+    land_cover_map_reclass = xr.where(land_cover_map.isnull(), np.nan, land_cover_map_reclass)
     return land_cover_map_reclass
 
 def get_edges(binary_xarray, constrain_to_nieghborhood):
