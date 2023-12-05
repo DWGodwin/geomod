@@ -23,6 +23,7 @@ def create_suitability_map_xarray(driver_maps, land_cover_map, weights=None):
             percent_developed[category] = developed_cells / total_cells *100 if total_cells > 0 else 0
         reclass_maps[str(band.values)] = percent_developed
     driver_maps_as_suitability = driver_map_classification(driver_maps, reclass_maps)
+    print(reclass_maps)
     if weights:
         suitability_map = sum(driver_maps_as_suitability.sel(band=band) * weight for band, weight in weights.items())
     else:
@@ -71,19 +72,20 @@ def reclassify_landcover_map(land_cover_map, class_of_interest):
 
 def get_edges(binary_xarray, constrain_to_nieghborhood):
 
-  
+    x, y = constrain_to_nieghborhood # kernel dimension x and kernel dimension y
+
     x_size, y_size = binary_xarray.sizes['x'], binary_xarray.sizes['y']
     borders = xr.zeros_like(binary_xarray, dtype=int)
 
     binary_np = binary_xarray.values
     borders_np = borders.values
-
+    
     # Iterate and update using numpy arrays
     for i in range(x_size):
         for j in range(y_size):
             if binary_np[:, i, j] == 0:
-                i_min, i_max = max(i - 1, 0), min(i + 2, x_size)
-                j_min, j_max = max(j - 1, 0), min(j + 2, y_size)
+                i_min, i_max = max(i - int(x/2), 0), min(i + int(x/2)+1, x_size)
+                j_min, j_max = max(j - int(y/2), 0), min(j + int(y/2)+1, y_size)
 
                 slice_adj = binary_np[:, i_min:i_max, j_min:j_max]
 
