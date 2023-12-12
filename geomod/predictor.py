@@ -33,7 +33,7 @@ class Predictor:
         validation_map=None,
         pixel_quantities=None,
         mask_image=None,
-        strate_map=None,
+        strata_map=None,
         constrain_to_neighborhood=None,
         driver_map_weights=None
         ):
@@ -60,6 +60,7 @@ class Predictor:
         2. gets only edge pixels using utils.get_edges()
         3. finds the [pixel quantity] number of pixels of the border suitability map that are
         '''
+        
 
     def validate(self): 
         '''

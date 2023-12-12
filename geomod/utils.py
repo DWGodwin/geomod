@@ -2,8 +2,10 @@
 
 import xarray as xr
 import numpy as np
+from numpy.polynomial import Polynomial
+from scipy.interpolate import interp1d
 
-def create_suitability_map_xarray(driver_maps, land_cover_map, weights=None):
+def create_suitability_map_xarray(driver_maps_discrete, driver_maps_continuous, land_cover_map, interpolation='linear', weights=None):
     '''
     reclassifies continuous driver maps to categorical, leaves cateogorical maps as is
     NOTE: Not needed for main predictor, this will be part of the pre-predictor data preparation pipeline 
@@ -11,10 +13,11 @@ def create_suitability_map_xarray(driver_maps, land_cover_map, weights=None):
         categorized_driver_maps
     '''
     reclass_maps = {}
-    num_bands = driver_maps.shape[0]
-    for band in driver_maps['band']:
+    num_bands = driver_maps_discrete.shape[0]
+    
+    for band in driver_maps_discrete['band']:
         percent_developed = {}
-        bandarray = driver_maps.sel(band=band)
+        bandarray = driver_maps_discrete.sel(band=band)
         band_categories = np.unique(bandarray).tolist()
         for category in band_categories:
             category_cells = bandarray == category
@@ -22,13 +25,42 @@ def create_suitability_map_xarray(driver_maps, land_cover_map, weights=None):
             total_cells = category_cells.sum().item()
             percent_developed[category] = developed_cells / total_cells *100 if total_cells > 0 else 0
         reclass_maps[str(band.values)] = percent_developed
-    driver_maps_as_suitability = driver_map_classification(driver_maps, reclass_maps)
-    print(reclass_maps)
+    
+    if interpolation == 'polynomial':
+        interpolation_functions = {key: Polynomial.fit(list(value.keys()), list(value.values()), 20) for key, value in reclass_maps.items()}
+    elif interpolation == 'linear':
+        interpolation_functions = {key: interp1d(list(value.keys()), list(value.values()), fill_value='extrapolate') for key, value in reclass_maps.items()}
+
+    driver_maps_as_suitability = driver_map_imterpolation(driver_maps_continuous, interpolation_functions)
+
     if weights:
         suitability_map = sum(driver_maps_as_suitability.sel(band=band) * weight for band, weight in weights.items())
     else:
         suitability_map = driver_maps_as_suitability.mean(dim='band')
     return suitability_map
+
+def driver_map_imterpolation(driver_maps, interpolation_functions):
+    '''
+    interpolaties continuous driver maps using suitability functions derived through interpolation
+    Returns:
+        interpolated_driver_maps
+    '''
+    interpolated_bands = []
+    
+    for band, interpolation_fn in interpolation_functions.items():
+        interp_band = driver_maps.sel(band=band)
+        
+        interpolated_band = interpolation_fn(interp_band)
+        
+        interpolated_bands.append(interpolated_band)
+    numpy_maps = np.stack(interpolated_bands)
+    interpolated_driver_maps = xr.DataArray(numpy_maps, 
+                               dims=driver_maps.dims,
+                               coords=driver_maps.coords,
+                               attrs=driver_maps.attrs)
+    
+                            
+    return interpolated_driver_maps
 
 def driver_map_classification(driver_maps, reclass_maps):
     '''
