@@ -47,6 +47,11 @@ class Predictor:
         self.strata_map = strata_map
         self.constrain_to_neighborhood = constrain_to_neighborhood
         self.driver_map_weights = driver_map_weights
+        
+        if self.pixel_quantities:
+            self.change_pixel_quantity = self.pixel_quantities[0] - self.starting_pixel_quantities[0]
+        else:
+            self.change_pixel_quantity = ((self.land_cover_map==0) & (self.validation_map==1)).sum().item()
 
         if self.suitability_map is None:
             self.suitability_map = utils.create_suitability_map(self.driver_maps, self.land_cover_map, self.driver_map_weights)
@@ -65,8 +70,9 @@ class Predictor:
         Returns:
             xarray: Predicted classification map.
         '''
-        # Step 1: Mask pixels already developed in the land cover map out of the suitability map
-        change_pixel_quantity = self.pixel_quantities[0] -  self.starting_pixel_quantities[0]
+
+
+        change_pixel_quantity = self.change_pixel_quantity
         print('target number of change pixels:', change_pixel_quantity)
 
         

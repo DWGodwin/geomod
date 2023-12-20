@@ -152,7 +152,7 @@ def get_pixel_quantities(binary_xarray):
     Extracts the number of developed and undeveloped cells of an input map
 
     Parameters:
-        input_map (xarray.DataArray): Binary input array.
+        binary_xarray (xarray.DataArray): Binary input array.
 
     Returns:
         tuple, int: (number of ones, number of zeros)

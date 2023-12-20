@@ -9,7 +9,6 @@ Examples of the module's use can be found in predict-example.ipynb, given catego
 
 ### Intended Improvements, in order of priority:
 
-- Addressing CROSSTAB issue where true positives and false negatives are equal
 - Creation of a validation map comparing time step 1, predicted time step 2, and validation time step 2
 - Generation of intermediate time steps between time step 1 and 2
 - Testing on larger datasets
