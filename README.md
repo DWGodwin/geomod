@@ -57,5 +57,3 @@ GEOMOD Python module offer a robust and versatile toolkit for geospatial analysi
 ### 7. Considerations
 - Adjust parameters such as weights, neighborhood constraints, and pixel quantities to optimize predictions.
 - Explore and experiment with different interpolation methods for driver maps.
-
-
